@@ -20,7 +20,7 @@ set -gx FUNCS "$APP_SYS_PC_01/functions/"
 set -gx CONFIG_CUSTOM_FISH "$DOTFILES/.config/fish/config_custom.fish"
 
 # ULTIMOS: SYSTEMS
-set -gx EXECUTE_FUNCTION_FINAL_BOOSTRAP "attGit linksPontuais dot"
+set -gx EXECUTE_FUNCTION_FINAL_BOOSTRAP "attGit" # ARRAY DE FUNCOES A EXECUTAR NO FIN DO bootstrap() exemplo: "func1 func 2"
 set -gx CONFIG_HOME "$HOME/.config/"
 set -gx CONFIG_DOTFILES "$HOME/.config/fish"
 
