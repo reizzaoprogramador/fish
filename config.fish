@@ -46,6 +46,25 @@ if test -z "$ROOT_SHELL"
     set -gx ROOT_SHELL "/usr/bin/fish"
 end
 
+
+# ==============================================================================
+# MODO VIM NO SHELL - TEMINAL FISH
+# Ativa o modo Vi nativo do Fish
+fish_vi_key_bindings
+
+# Mapeia 'jj' para voltar instantaneamente ao modo normal a partir do modo de inserção
+bind -M insert -m default jj force-repaint
+
+# (Opcional) Define o cursor para mudar de formato dependendo do modo (Bloco no Normal, Linha no Inserir)
+set fish_cursor_default block
+set fish_cursor_insert line
+set fish_cursor_visual underscore
+
+# ------------------------------------------------------------------------------
+
+
+
+
 # ==============================================================================
 # @README
 # ------------------------------------------------------------------------------
