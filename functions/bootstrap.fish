@@ -36,8 +36,8 @@ function bootstrap --description "Clona dotfiles, instala dependencias declarada
     for file in $DEPS_DIR/*
         set -l filename (basename $file)
 
-        # Pula explicitamente arquivos que nao sao listas de pacotes APT
-        if test "$filename" = "README.md"; or test "$filename" = "README"; or string match -q "*.sh" $filename
+        # Pula explicitamente arquivos que nao sao listas de pacotes APT (como READMEs e scripts .sh)
+        if test "$filename" = "README.md"; or test "$filename" = "README"; or string match -q "*.sh" "$filename"; or string match -q "*_for_LTS" "$filename"
             continue
         end
 
@@ -58,12 +58,13 @@ function bootstrap --description "Clona dotfiles, instala dependencias declarada
         end
     end
 
-    # Executa a instalação via cURL chamando o script corretamente a partir do diretório de scripts ($SHELLS)
-    if test -x "$SHELLS/install_by_curl.sh"
+    # Executa a instalação via cURL chamando o script correto na pasta installs_curl
+    set -l CURL_SCRIPT "$BOOTSTRAP_DEPS/installs_curl/by_curl_for_LTS"
+    if test -x "$CURL_SCRIPT"
         set_color blue --bold
         echo "[BOOTSTRAP] Executando instalações via cURL..."
         set_color normal
-        bash "$SHELLS/install_by_curl.sh"
+        bash "$CURL_SCRIPT"
     end
 
     set_color green --bold
