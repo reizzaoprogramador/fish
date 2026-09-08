@@ -8,8 +8,8 @@ function linksPontuais
     # Blindagem absoluta: o destino é SEMPRE a pasta de config real do usuário
     set -l target_config "$HOME/.config/fish"
     
-    if test -z "$DOTFILES"; or test -z "$OFISH"; or test -z "$FUNCS"
-        echo "[ERRO] As variáveis \$DOTFILES, \$OFISH ou \$FUNCS não estão definidas."
+    if test -z "$DOTFILES"; or test -z "$OFISH"; or test -z "$FUNC_SH"
+        echo "[ERRO] As variáveis \$DOTFILES, \$OFISH ou \$FUNC_SH não estão definidas."
         return 1
     end
 
@@ -48,16 +48,16 @@ function linksPontuais
 
     # 5. GARANTIA DE ESPELHAMENTO DAS FUNÇÕES:
     # Cria um link interno da pasta de funções globais para dentro do config do fish, 
-    # garantindo que tudo em $FUNCS/fishfunctions apareça automaticamente no fish.
-    if test -d "$FUNCS/fishfunctions"
-        if not test -d "$target_config/functions"; and not test -L "$target_config/functions"
-            ln -sfn "$FUNCS/fishfunctions" "$target_config/functions"
+    # garantindo que tudo em $FUNC apareça automaticamente no fish.
+    if test -d "$FUNC"
+        if not test -d "$FUNC"; and not test -L "$FUNC"
+            ln -sfn "$FUNC" "$target_config/functions"
         end
     end
     
     echo "[OK] Links pontuais aplicados com sucesso!"
     echo "    Origem ($OFISH) -> Destino ($target_config)"
-    echo "    Funções espelhadas de ($FUNCS/fishfunctions)"
+    echo "    Funções espelhadas de ($FUNC)"
 
 # =============================================================
 # @How_To_Use

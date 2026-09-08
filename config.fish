@@ -27,7 +27,8 @@ set -gx OYAZI "$PROGRAMS/yazi"
 set -gx BOOTSTRAP_DEPS "$OSHELLBASH/bootstrap_deps"
 set -gx ENVS "$OSHELLBASH/env"
 set -gx ALIASES "$OSHELLBASH/aliases"
-set -gx FUNCS "$OSHELLBASH/functions/"
+set -gx FUNC_SH "$OSHELLBASH/functions"
+set -gx FUNC "$OFISH/functions" # functions do shell atual
 
 # 4. Array para automacao via gitall (Fish equivalente)
 set -gx ARRAY_BY_GITALL "$OSHELLBASH" "$PROGRAMS" "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OSF" "$OALACRITTY" "$OFISH" "$OYAZI"
