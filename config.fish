@@ -6,37 +6,31 @@ if status is-interactive
     set -g fish_greeting
 end
 
-# 1.2 DIRS_NIVEL 1
+# 1. DIRS_NIVEL 1
+set -gx CONFIG_HOME "$HOME/.config/"
 set -gx WWW "$HOME/www"
 set -gx DOTFILES "$WWW/dotfiles"
 
-# 2. APP_SYS_PC_01
-set -gx APP_SYS_PC_01 "$DOTFILES/app_sys_pc_01"
-set -gx BASHRC "$APP_SYS_PC_01/bash"
-set -gx BOOTSTRAP_DEPS "$APP_SYS_PC_01/bootstrap_deps"
-set -gx ENVS "$APP_SYS_PC_01/env"
-set -gx ALIASES "$APP_SYS_PC_01/aliases"
-set -gx FUNCS "$APP_SYS_PC_01/functions/"
-set -gx CONFIG_CUSTOM_FISH "$DOTFILES/.config/fish/config_custom.fish"
-
-# ULTIMOS: SYSTEMS
-set -gx EXECUTE_FUNCTION_FINAL_BOOSTRAP "attGit" # ARRAY DE FUNCOES A EXECUTAR NO FIN DO bootstrap() exemplo: "func1 func 2"
-set -gx CONFIG_HOME "$HOME/.config/"
-set -gx CONFIG_DOTFILES "$HOME/.config/fish"
-
-# 3. INCLUDED PROGRAMS :: PREFIX: O = OPEN DIR
+# 2. INCLUDED PROGRAMS :: PREFIX: O   OPEN DIR
 set -gx PROGRAMS "$CONFIG_HOME"
+set -gx OSHELLBASH "$PROGRAMS/shellbash"
 set -gx OVIM "$PROGRAMS/vim"
 set -gx ONVIM "$PROGRAMS/nvim"
 set -gx OTMUX "$PROGRAMS/tmux"
 set -gx OSTARSHIP "$PROGRAMS/starship"
 set -gx OSF "$PROGRAMS/superfile"
-set -gx OALACRITTY "$PROGRAMS/alacritty"
 set -gx OFISH "$PROGRAMS/fish"
 set -gx OYAZI "$PROGRAMS/yazi"
 
-# Array para automacao via gitall (Fish equivalente)
-set -gx ARRAY_BY_GITALL "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OSF" "$OALACRITTY" "$OFISH" "$OYAZI"
+
+# 3.SHELLBASH
+set -gx BOOTSTRAP_DEPS "$OSHELLBASH/bootstrap_deps"
+set -gx ENVS "$OSHELLBASH/env"
+set -gx ALIASES "$OSHELLBASH/aliases"
+set -gx FUNCS "$OSHELLBASH/functions/"
+
+# 4. Array para automacao via gitall (Fish equivalente)
+set -gx ARRAY_BY_GITALL "$OSHELLBASH" "$PROGRAMS" "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OSF" "$OALACRITTY" "$OFISH" "$OYAZI"
 
 # Sobreescreve vars do sistema
 set -gx EDITOR "nvim"
