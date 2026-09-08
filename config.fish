@@ -33,7 +33,7 @@ set -gx OSTARSHIP "$PROGRAMS/starship"
 set -gx OSF "$PROGRAMS/superfile"
 set -gx OALACRITTY "$PROGRAMS/alacritty"
 set -gx OFISH "$PROGRAMS/fish"
-set -gx OYAZI="$PROGRAMS/yazi"
+set -gx OYAZI "$PROGRAMS/yazi"
 
 # Array para automacao via gitall (Fish equivalente)
 set -gx ARRAY_BY_GITALL "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OSF" "$OALACRITTY" "$OFISH" "$OYAZI"
