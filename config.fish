@@ -21,6 +21,7 @@ set -gx OSTARSHIP "$PROGRAMS/starship"
 set -gx OSF "$PROGRAMS/superfile"
 set -gx OFISH "$PROGRAMS/fish"
 set -gx OYAZI "$PROGRAMS/yazi"
+set -gx OI3 "$PROGRAMS/i3"
 
 
 # 3.SHELLBASH
@@ -31,7 +32,8 @@ set -gx FUNC_SH "$OSHELLBASH/functions"
 set -gx FUNC "$OFISH/functions" # functions do shell atual
 
 # 4. Array para automacao via gitall (Fish equivalente)
-set -gx ARRAY_BY_GITALL "$OSHELLBASH" "$PROGRAMS" "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OSF" "$OALACRITTY" "$OFISH" "$OYAZI"
+set -gx ARRAY_BY_GITALL "$OSHELLBASH" "$PROGRAMS" "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OALACRITTY" "$OFISH" "$OYAZI" "$OI3"
+# standby para o array gitall: #  "$OSF" 
 
 # Sobreescreve vars do sistema
 set -gx EDITOR "nvim"
