@@ -4,7 +4,7 @@
 function runBootstrap
     # @desc: Executa o script de bootstrap do ambiente
     # @mission: Rodar o instalador declarativo de dependências do shellbash
-    bash ~/.config/shellbash/executables/bootstrap.sh
+    bash $BOOTSTRAP_DIR/executables/bootstrap.sh
 end
 
 # ==============================================================================
