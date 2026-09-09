@@ -1,5 +1,5 @@
 # @file: $OFISH/config.fish
-# @mission: Inicialização, padronização e carregamento de ambiente do Fish
+# @mission: configuracao + inicializacao + padronizacao de ambiente WWW
 
 if status is-interactive
     set -g fish_greeting
@@ -7,29 +7,38 @@ end
 
 # 1. DIRS_NIVEL 1
 set -gx CONFIG_HOME "$HOME/.config"
-set -gx WWW "$HOME/www"
-set -gx DOTFILES "$WWW/dotfiles"
+set -gx ROOT_PC "$CONFIG_HOME/.01_ROOT"
 
-# 2. INCLUDED PROGRAMS
-set -gx PROGRAMS "$CONFIG_HOME"
-set -gx OSHELLBASH "$PROGRAMS/shellbash"
-set -gx OVIM "$PROGRAMS/vim"
-set -gx ONVIM "$PROGRAMS/nvim"
-set -gx OTMUX "$PROGRAMS/tmux"
-set -gx OSTARSHIP "$PROGRAMS/starship"
-set -gx OSF "$PROGRAMS/superfile"
-set -gx OFISH "$PROGRAMS/fish"
-set -gx OYAZI "$PROGRAMS/yazi"
-set -gx OI3 "$PROGRAMS/i3"
+# 2.1 ROOT_PC >> PC
+set -gx PC "$ROOT_PC/01_PC_PGM_01"
+set -gx OBASH "$PC/bash"
+set -gx DOTFILES "$PC/dotfiles"
+set -gx BOOTSTRAP_DIR "$PC/bootstrap"
 
-# 3. SHELLBASH E VARS
-set -gx ENVS "$OSHELLBASH/env"
-set -gx ALIASES "$OSHELLBASH/aliases"
-set -gx FUNC_SH "$OSHELLBASH/functions"
-set -gx FUNC "$OFISH/functions"
+# WWW
+set -gx WWW "$ROOT_PC/www"
+set -gx WWW_RZ "$WWW/01_RZJ_WWW"
+set -gx WWW_CLIS "$WWW/CLIS"
 
-# 4. Array para automação via gitall
-set -gx ARRAY_BY_GITALL "$OSHELLBASH" "$PROGRAMS" "$WWW" "$OVIM" "$ONVIM" "$OTMUX" "$OSTARSHIP" "$OFISH" "$OYAZI" "$OI3"
+# 2. IN ~/CONFIG :: PREFIX: O = OPEN DIR
+set -gx PROGRAMS_CONFIG "$CONFIG_HOME"
+set -gx OVIM "$PROGRAMS_CONFIG/vim"
+set -gx ONVIM "$PROGRAMS_CONFIG/nvim"
+set -gx OTMUX "$PROGRAMS_CONFIG/tmux"
+set -gx OSTARSHIP "$PROGRAMS_CONFIG/starship"
+set -gx OSF "$PROGRAMS_CONFIG/superfile"
+set -gx OFISH "$PROGRAMS_CONFIG/fish"
+set -gx OYAZI "$PROGRAMS_CONFIG/yazi"
+set -gx OI3 "$PROGRAMS_CONFIG/i3"
+
+# 3. SHELLBASH
+set -gx ENVS "$OBASH/env"
+set -gx ALIASES "$OBASH/aliases"
+set -gx FUNC "$OBASH/functions"
+set -gx FUNC_SH "$OBASH/functions/"
+
+# 4. Array para automacao via gitall >> que tem que ser ate 3 niveis
+set -gx ARRAY_BY_GITALL "$PC" "$WWW" "$CONFIG_HOME"
 
 # Sobrescreve vars do sistema
 set -gx EDITOR "nvim"
@@ -47,6 +56,8 @@ set fish_cursor_insert line
 set fish_cursor_visual underscore
 
 # == IMPORTS ==
+
+# 1. Carrega dados sensiveis e ambiente (.env_rz)
 if test -f "$ENVS/.env_rz"
     for line in (cat "$ENVS/.env_rz" | grep -v '^#' | grep -v '^$')
         set -l clean_line (string replace -r '^export\s+' '' $line)
@@ -57,17 +68,46 @@ if test -f "$ENVS/.env_rz"
     end
 end
 
+# 2. Carrega aliases do Fish (ou compativel)
 if test -f "$ALIASES/aliases.fish"
     source "$ALIASES/aliases.fish"
 end
 
-# Carrega bootstrap do Fish (ele mesmo define suas variáveis e dependências internamente)
-if test -f "$HOME/www/bootstrap/main.fish"
-    source "$HOME/www/bootstrap/main.fish"
+# 3. Carrega apenas arquivos .fish da pasta functions (equivalente ao loop de .sh)
+if test -d "$FUNC"
+    for file in "$FUNC"/*.fish
+        if test -f "$file" -a -r "$file"
+            source "$file"
+        end
+    end
+end
+
+# 4. Carrega Bootstrap (ele mesmo define suas variáveis e dependências internamente)
+if test -f "$BOOTSTRAP_DIR/main.fish"
+    source "$BOOTSTRAP_DIR/main.fish"
+end
+
+# 5. tmux
+# -- Detecção de Sessão Ativa (Opcional). O Tmux define automaticamente a variável $TMUX quando você está dentro dele. Se em algum script ou configuração futura você precisar validar se o shell atual está rodando dentro do Tmux --
+if test -n "$TMUX"
+    # Comandos específicos rodando dentro do tmux
 end
 
 # ==============================================================================
 # @README
+# ------------------------------------------------------------------------------
+# @ATENCAO: 
+    # - Sempre use este padrao em todos files,
+    # - antes de mudancas leia este #@README, não faça mudancas sem avisar, nem marretacoes sem a autorização do proprietário.
+
 # @objetivo_file: inicializar variaveis e funcoes do sistema no Fish
+# @requisitos_essenciais: fish 3+, permissoes de leitura nos arquivos importados
+# @regras: manter declaracao de variaveis no topo e imports no final
+# @como_resolveu: espelhamento completo do .bashrc_custom para o ecossistema Fish, mantendo caminhos atualizados do ROOT_PC
+# @diferencial_paea_funcionar: adaptacao de arrays nativos do fish e loop de parsing do .env_rz
+# @importante_nao_mudar: a ordem de carregamento dos arquivos declarativos
+# @todo_temQueArrumar: nenhum
+# @EVITE: chamar source config.fish dentro de funcoes filhas
+# -- @CUIDADOS: Manter caminhos relativos baseados na variavel WWW e ROOT_PC
 # @tags: #www #wAPP_SYS_PC_01 #vibecode #fish
 # ==============================================================================
