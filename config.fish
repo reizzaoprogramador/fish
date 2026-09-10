@@ -1,5 +1,5 @@
-# @file: $OFISH/config.fish
-# @mission: configuracao + inicializacao + padronizacao de ambiente WWW
+
+# @file: dot.sh
 
 if status is-interactive
     set -g fish_greeting
@@ -8,15 +8,17 @@ end
 # 1. DIRS_NIVEL 1
 set -gx CONFIG_HOME "$HOME/.config"
 set -gx ROOT_PC "$CONFIG_HOME/.01_ROOT"
+set -gx TESTERS "$SCIPTS_RZ/testers"
 
-# 2.1 ROOT_PC >> PC
-set -gx PC "$ROOT_PC/01_PC_PGM_01"
-set -gx OBASH "$PC/bash"
-set -gx DOTFILES "$PC/dotfiles"
-set -gx BOOTSTRAP_DIR "$PC/bootstrap"
+# 2.1 ROOT_PC >> SCRIPTS_RZ
+set -gx SCRIPTS_RZ "$ROOT_PC/ascripts_rz"
+set -gx OBASH "$SCRIPTS_RZ/bash"
+set -gx DOTFILES "$SCRIPTS_RZ/dotfiles"
+set -gx BOOTSTRAP_DIR "$SCRIPTS_RZ/bootstrap"
+set -gx TEST "$SCRIPTS_RZ/testers"
 
 # WWW - GITHUBS
-set -gx GITHUB_RZ "$PC/github_rzj"
+set -gx GITHUB_RZ "$ROOT_PC/wgithub_rzj"
 set -gx WWW_CLIS "$ROOT_PC/wgithub_clis"
 
 # 2. IN ~/CONFIG :: PREFIX: O = OPEN DIR
@@ -33,11 +35,14 @@ set -gx OI3 "$PROGRAMS_CONFIG/i3"
 # 3. SHELLBASH
 set -gx ENVS "$OBASH/env"
 set -gx ALIASES "$OBASH/aliases"
-set -gx FUNC "$OBASH/functions"
+set -gx FUNC "$OFISH/functions"
 set -gx FUNC_SH "$OBASH/functions/"
 
+# 
+set -gx ARRAY_DOTFILES_IGNORE "zzz" "test"
+
 # 4. Array para automacao via gitall >> que tem que ser ate 3 niveis
-set -gx ARRAY_BY_GITALL "$PC" "$WWW_CLIS" "$CONFIG_HOME"
+set -gx ARRAY_BY_GITALL "$SCRIPTS_RZ" "$GITHUB_RZ""$CONFIG_HOME" "$WWW_CLIS"
 
 # Sobrescreve vars do sistema
 set -gx EDITOR "nvim"
@@ -95,9 +100,11 @@ if test -d "$FUNC"
     end
 end
 
-# 4. Carrega Bootstrap (ele mesmo define suas variáveis e dependências internamente)
-if test -f "$BOOTSTRAP_DIR/main.fish"
+# 4. Carrega Bootstrap com proteção de segurança para evitar caminhos vazios
+if test -n "$BOOTSTRAP_DIR" -a -f "$BOOTSTRAP_DIR/main.fish"
     source "$BOOTSTRAP_DIR/main.fish"
+else
+    echo -e "\033[1;33m[AVISO]\033[0m Bootstrap Fish não encontrado ou BOOTSTRAP_DIR vazio em: $BOOTSTRAP_DIR/main.fish"
 end
 
 

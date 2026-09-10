@@ -1,27 +1,36 @@
-# ==============================================================================
-# @file: bbb.fish
-# @mission: Recarregar a sessão do Fish Shell e sincronizar as funções de wshells com feedback customizado.
-# ==============================================================================
-
-function bbb --description "Recarrega a sessao do Fish com feedback customizado"
-    # @desc: Limpa a tela e sincroniza funções se necessário
-    # @mission: Atualização rápida e limpa do ambiente interativo
+function bbb --description "Recarrega o ambiente Fish com teste e feedback"
+    # @desc: recarrega o ambiente fish com teste e feedback
+    # @mission: executar testShell, aplicar source e reiniciar o shell
     clear
     
-    if test -f "$SHELLS/functions/bbb.fish"
-        mkdir -p "$HOME/.config/fish/functions"
-        cp "$SHELLS/functions/bbb.fish" "$HOME/.config/fish/functions/bbb.fish"
+    # Executa a função externa testShell se ela existir no escopo do Fish
+    if type -q testShell
+        testShell
     end
     
+    # Recarrega a configuração principal do Fish
+    if test -f "$HOME/.config/fish/config.fish"
+        source "$HOME/.config/fish/config.fish"
+    end
+    
+    # Imprime o feedback formatado
     set_color green --bold
-    echo "[OK] AMBIENTE FISH CARREGADO !!!"
+    echo "[OK] SOURCE & EXEC :: [FISH] :: SUCESS !!! $testShell"
     set_color normal
+    
+    # Reinicia o shell de forma limpa (DEVE SER A ÚLTIMA LINHA)
+    exec fish
+    
+# =============================================================
+# @How_To_Use
+# bbb
+# ===========================================================
 end
 
 # ==============================================================================
 # @README_Plugin
-# - O que está incluído: Função bbb para recarregar o Fish Shell com feedback visual.
-# - Comportamento: Limpa o terminal, sincroniza a função se necessário e exibe a mensagem de sucesso colorida.
+# - O que está incluído: Função bbb para recarregar o Fish com teste e feedback visual.
+# - Comportamento: Limpa a tela, roda testShell (se existir), recarrega o config.fish, exibe o status e executa o exec fish.
 # - Como Usar: bbb
-# - Tags: #contexto #wfunc #automacao
+# - Tags: #contexto #wfunc #automacao #fish
 # ==============================================================================
