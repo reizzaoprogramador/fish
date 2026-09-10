@@ -15,10 +15,9 @@ set -gx OBASH "$PC/bash"
 set -gx DOTFILES "$PC/dotfiles"
 set -gx BOOTSTRAP_DIR "$PC/bootstrap"
 
-# WWW
-set -gx WWW "$ROOT_PC/www"
-set -gx WWW_RZ "$WWW/01_RZJ_WWW"
-set -gx WWW_CLIS "$WWW/CLIS"
+# WWW - GITHUBS
+set -gx GITHUB_RZ "$PC/github_rzj"
+set -gx WWW_CLIS "$ROOT_PC/wgithub_clis"
 
 # 2. IN ~/CONFIG :: PREFIX: O = OPEN DIR
 set -gx PROGRAMS_CONFIG "$CONFIG_HOME"
@@ -38,7 +37,7 @@ set -gx FUNC "$OBASH/functions"
 set -gx FUNC_SH "$OBASH/functions/"
 
 # 4. Array para automacao via gitall >> que tem que ser ate 3 niveis
-set -gx ARRAY_BY_GITALL "$PC" "$WWW" "$CONFIG_HOME"
+set -gx ARRAY_BY_GITALL "$PC" "$WWW_CLIS" "$CONFIG_HOME"
 
 # Sobrescreve vars do sistema
 set -gx EDITOR "nvim"
@@ -68,12 +67,26 @@ if test -f "$ENVS/.env_rz"
     end
 end
 
-# 2. Carrega aliases do Fish (ou compativel)
+# 2. == HOOKS ==
+# 2.1 TMUX
+set -gx LISTEN_TMUX "$HOME/.config/tmux/session_state.txt"  # SALVA JANELAS TMUX EM FILE.txt
+# -- Detecção de Sessão Ativa (Opcional). O Tmux define automaticamente a variável $TMUX quando você está dentro dele. Se em algum script ou configuração futura você precisar validar se o shell atual está rodando dentro do Tmux --
+if test -n "$TMUX"
+    # Comandos específicos rodando dentro do tmux
+end
+
+# HOOK EXECUTADOR AO LIGAR E DESLIGAR
+function __on_exit --on-event fish_exit
+    persistSessionTmux save
+end
+
+
+# 3. Carrega aliases do Fish (ou compativel)
 if test -f "$ALIASES/aliases.fish"
     source "$ALIASES/aliases.fish"
 end
 
-# 3. Carrega apenas arquivos .fish da pasta functions (equivalente ao loop de .sh)
+# 4. Carrega apenas arquivos .fish da pasta functions (equivalente ao loop de .sh)
 if test -d "$FUNC"
     for file in "$FUNC"/*.fish
         if test -f "$file" -a -r "$file"
@@ -87,17 +100,6 @@ if test -f "$BOOTSTRAP_DIR/main.fish"
     source "$BOOTSTRAP_DIR/main.fish"
 end
 
-# 5. tmux
-set -gx LISTEN_TMUX "$HOME/.config/tmux/session_state.txt"  # SALVA JANELAS TMUX EM FILE.txt
-# -- Detecção de Sessão Ativa (Opcional). O Tmux define automaticamente a variável $TMUX quando você está dentro dele. Se em algum script ou configuração futura você precisar validar se o shell atual está rodando dentro do Tmux --
-if test -n "$TMUX"
-    # Comandos específicos rodando dentro do tmux
-end
-
-# HOOK EXECUTADOR AO LIGAR E DESLIGAR
-function __on_exit --on-event fish_exit
-    persistSessionTmux save
-end
 
 # ==============================================================================
 # @README
