@@ -15,7 +15,7 @@ set -gx SCRIPTS_RZ "$ROOT_PC/ascripts_rz"
 set -gx OBASH "$SCRIPTS_RZ/bash"
 set -gx DOTFILES "$SCRIPTS_RZ/dotfiles"
 set -gx BOOTSTRAP_DIR "$SCRIPTS_RZ/bootstrap"
-set -gx TEST "$SCRIPTS_RZ/testers"
+set -gx TEST "$SCRIPTS_RZ/testers/main.go"
 
 # WWW - GITHUBS
 set -gx GITHUB_RZ "$ROOT_PC/wgithub_rzj"
