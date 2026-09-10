@@ -88,9 +88,15 @@ if test -f "$BOOTSTRAP_DIR/main.fish"
 end
 
 # 5. tmux
+set -gx LISTEN_TMUX "$HOME/.config/tmux/session_state.txt"  # SALVA JANELAS TMUX EM FILE.txt
 # -- Detecção de Sessão Ativa (Opcional). O Tmux define automaticamente a variável $TMUX quando você está dentro dele. Se em algum script ou configuração futura você precisar validar se o shell atual está rodando dentro do Tmux --
 if test -n "$TMUX"
     # Comandos específicos rodando dentro do tmux
+end
+
+# HOOK EXECUTADOR AO LIGAR E DESLIGAR
+function __on_exit --on-event fish_exit
+    persistSessionTmux save
 end
 
 # ==============================================================================
